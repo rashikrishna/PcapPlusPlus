@@ -196,7 +196,7 @@ namespace pcpp
 	 * Resource for more information:
 	 * https://www.rfc-editor.org/rfc/rfc5007.html#section-4.1.3
 	 */
-	enum DhcpV6LeasequeryStatusCode {
+	enum DhcpV6StatusCode {
 		/* The query type is unknown to or not supported */
 		DHCPV6_LQ_UNKNOWN_QUERY_TYPE  = 7,
 		/* The query is not valid: malformed */
