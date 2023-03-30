@@ -388,6 +388,8 @@ namespace pcpp
 
 		TLVRecordBuilder(uint32_t recType, const std::string& recValue, bool valueIsHexString = false);
 
+		TLVRecordBuilder(uint32_t recType);
+
 		TLVRecordBuilder(const TLVRecordBuilder& other);
 
 		TLVRecordBuilder& operator=(const TLVRecordBuilder& other);

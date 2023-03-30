@@ -44,7 +44,11 @@ namespace pcpp
 		/** Relay-Forward message type (Relay agent to Server) */
 		DHCPV6_RELAY_FORWARD       = 12,
 		/** Relay-Reply message type (Server to Relay agent) */
-		DHCPV6_RELAY_REPLY         = 13
+		DHCPV6_RELAY_REPLY         = 13,
+		/** Leasequery message type (Client to Server) */
+		DHCPV6_LEASEQUERY          = 14,
+		/** Leasequery-Reply message type (Server to Client) */
+		DHCPV6_LEASEQUERY_REPLY    = 15,
 	};
 
 	/**
@@ -187,6 +191,35 @@ namespace pcpp
 		DHCPV6_OPT_MUD_URL                  = 112
 	};
 
+	/** 
+	 * DHCP Leasequery Status code (DHCPV6_OPT_STATUS_CODE - 13)
+	 * Resource for more information:
+	 * https://www.rfc-editor.org/rfc/rfc5007.html#section-4.1.3
+	 */
+	enum DhcpV6LeasequeryStatusCode {
+		/* The query type is unknown to or not supported */
+		DHCPV6_LQ_UNKNOWN_QUERY_TYPE  = 7,
+		/* The query is not valid: malformed */
+		DHCPV6_LQ_MALFORMED_QUERY     = 8,
+		/* The server does not have the target address  */
+		DHCPV6_LQ_NOT_CONFIGURED      = 9,
+		/* The server does not allow the requestor to issue this LEASEQUERY */
+		DHCPV6_LQ_NOT_ALLOWED         = 10
+	};
+
+	/**
+	 * DHCP Leasequery Packets have a Leasequery Query option set.
+	 * Resource for more information:
+	 * https://www.rfc-editor.org/rfc/rfc5007.html#section-4.1.2.1
+	 */
+	enum DHCPv6LqQueryType {
+    /* Query by IPv6 address */
+    DHCPV6_LQ_QUERY_BY_ADDRESS  = 1,
+    /* Query by client identifier (DUID) */
+    DHCPV6_LQ_QUERY_BY_CLIENTID = 2,
+    /* Unknown Type */
+    DHCPV6_LQ_QUERY_UNKNOWN     = 3
+	};
 	/**
 	 * @class DhcpV6Option
 	 * A wrapper class for DHCPv6 options. This class does not create or modify DHCP option records, but rather

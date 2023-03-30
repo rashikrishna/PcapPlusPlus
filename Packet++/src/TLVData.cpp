@@ -50,16 +50,18 @@ TLVRecordBuilder::TLVRecordBuilder(uint32_t recType, const std::string& recValue
 	{
 		uint8_t recValueByteArr[512];
 		size_t byteArraySize = hexStringToByteArray(recValue, recValueByteArr, 512);
-		if (byteArraySize > 0)
-		{
-			init(recType, recValueByteArr, byteArraySize);
-		}
+		init(recType, recValueByteArr, byteArraySize);
 	}
 	else
 	{
 		uint8_t* recValueByteArr = (uint8_t*)recValue.c_str();
 		init(recType, recValueByteArr, recValue.length());
 	}
+}
+
+TLVRecordBuilder::TLVRecordBuilder(uint32_t recType)
+{
+	init(recType, NULL, 0);
 }
 
 void TLVRecordBuilder::copyData(const TLVRecordBuilder& other)

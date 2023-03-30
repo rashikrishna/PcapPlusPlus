@@ -90,7 +90,15 @@ namespace pcpp
 		/** Release message type */
 		DHCP_RELEASE          = 7,
 		/** Inform message type */
-		DHCP_INFORM           = 8
+		DHCP_INFORM           = 8,
+		/** Lease query message type */
+		DHCP_LEASE_QUERY      = 10,
+		/** Lease Unassigned message type */
+		DHCP_LEASE_UNASSIGNED = 11,
+		/** Lease unknown message type */
+		DHCP_LEASE_UNKNOWN    = 12,
+		/** Lease Active message type */
+		DHCP_LEASE_ACTIVE     = 13,
 	};
 
 	/**
@@ -561,6 +569,14 @@ namespace pcpp
 			TLVRecordBuilder((uint8_t)optionType, optionValue) { }
 
 		/**
+		 * A c'tor for building DHCP options for setting options like END, which doesn't set any value. The DhcpOption object can later be retrieved
+		 * by calling build()
+		 * @param[in] optionType DHCP option type
+		 */
+		DhcpOptionBuilder(DhcpOptionTypes optionType) :
+			TLVRecordBuilder((uint8_t)optionType) { }
+
+		/**
 		 * A copy c'tor which copies all the data from another instance of DhcpOptionBuilder
 		 * @param[in] other The instance to copy from
 		 */
@@ -634,6 +650,12 @@ namespace pcpp
 		BootpOpCodes getOpCode() const { return (BootpOpCodes)getDhcpHeader()->opCode; }
 
 		/**
+		 * Set the Operation Code.  (as extracted from dhcp_headedhcpHeader#opCode)
+		 * @param[in] opCode The Operation Code to set.
+		 */
+		void setOpCode(const BootpOpCodes& opCode) { getDhcpHeader()->opCode = opCode; }
+
+		/**
 		 * @return The client IPv4 address (as extracted from dhcp_header#clientIpAddress converted to IPv4Address object)
 		 */
 		IPv4Address getClientIpAddress() const { return getDhcpHeader()->clientIpAddress; }
@@ -689,6 +711,73 @@ namespace pcpp
 		 * @param[in] addr The MAC address to set
 		 */
 		void setClientHardwareAddress(const MacAddress& addr);
+
+		/**
+		 * @return The hardware type in the DHCP Packet as extracted from dhcp_header#hardwareType
+		 */
+		uint8_t getHardwareType() const { return getDhcpHeader()->hardwareType; };
+
+		/**
+		 * Set the Hardware Type in dhcp_header#hardwareType.
+		 * @param[in] type The Hardware Type to set. Make sure to set the HardwareLength based on Hardware type. Otherwise
+		 * we will have malformed packets.
+		 */
+		void setHardwareType(const uint8_t& type) { getDhcpHeader()->hardwareType = type;};
+
+		/**
+		 * @return The hardware Address length (as extracted from dhcp_header#hardwareAddressLength)
+		 */
+		uint8_t getHardwareAddressLength() const { return getDhcpHeader()->hardwareAddressLength; };
+
+		/**
+		 * Set the Hardware Address Length in dhcp_header#hardwareAddressLength.
+		 * @param[in] addrLength The hlen in byte
+		 */
+		void setHardwareAddressLength(const uint8_t& addrLength) { getDhcpHeader()->hardwareAddressLength = addrLength; };
+
+		/**
+		 * @return The number of times the dhcp message has been forwarded by relay agents (as extracted from dhcp_header#hops)
+		 */
+		uint8_t getHops() const { return getDhcpHeader()->hops; };
+
+		/**
+		 * Set the number of times the dhcp message has been forwarded by relay agents in dhcpHeader#hops
+		 * @param[in] hops hops
+		 */
+		void setHops(const uint8_t& hops) { getDhcpHeader()->hops = hops; };
+
+		/**
+		 * @return The Transaction ID (as extracted from dhcp_header#transactionID)
+		 */
+		uint32_t getTransactionID() const { return getDhcpHeader()->transactionID; };
+
+		/**
+		 * Set the transaction ID in dhcpHeader#transactionID
+		 * @param[in] id The transaction ID
+		 */
+		void setTransationID(const uint32_t& id) { getDhcpHeader()->transactionID = id; };
+
+		/**
+		 * @return Seconds Elapsed since the client send a request for lease assigning or extending (as extracted from dhcp_header#secondsElapsed)
+		 */
+		uint32_t getSecondsElapsed() const  { return getDhcpHeader()->secondsElapsed; };
+
+		/**
+		 * Set the Seconds Elapsed since the client send a request for lease assigning or extending dhcpHeader#secondsElapsed
+		 * @param[in] secElapsed The Seconds Elapsed
+		 */
+		void setSecondsElapsed(const uint16_t& secElapsed) { getDhcpHeader()->secondsElapsed = secElapsed; };
+
+		/**
+		 * @return The Flags (as extracted from dhcp_header#flags)
+		 */
+		uint16_t getFlags() const { return getDhcpHeader()->flags; };
+
+		/**
+		 * Set the 16 bit flags field in dhcpHeader#flags
+		 * @param[in] flags The Flag as a 16 bit unsigned integer.
+		 */
+		void setFlags(const uint16_t& flags) { getDhcpHeader()->flags = flags; };
 
 		/**
 		 * @return DHCP message type as extracted from ::DHCPOPT_DHCP_MESSAGE_TYPE option. If this option doesn't exist the value of

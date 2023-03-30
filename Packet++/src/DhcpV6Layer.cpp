@@ -9,6 +9,9 @@
 namespace pcpp
 {
 
+/* Status message in hexadecimal for status code NotConfigured(13). In ASCII it is "Address not in a pool." */
+#define DHCPV6_STATUS_NOT_CONFIGURED_MESSAGE = 0x41646472657373206e6f7420696e206120706f6f6c2e
+
 DhcpV6OptionType DhcpV6Option::getType() const
 {
 	if (m_Data == nullptr)
@@ -87,7 +90,7 @@ DhcpV6Layer::DhcpV6Layer(DhcpV6MessageType messageType, uint32_t transactionId)
 DhcpV6MessageType DhcpV6Layer::getMessageType() const
 {
 	uint8_t messageType = getDhcpHeader()->messageType;
-	if (messageType > 13)
+	if (messageType > 15)
 	{
 		return DHCPV6_UNKNOWN_MSG_TYPE;
 	}
@@ -126,6 +129,10 @@ std::string DhcpV6Layer::getMessageTypeAsString() const
 			return "Relay-Forward";
 		case DHCPV6_RELAY_REPLY:
 			return "Relay-Reply";
+		case DHCPV6_LEASEQUERY:
+			return "Leasequery";
+		case DHCPV6_LEASEQUERY_REPLY:
+			return "Leasequery-Reply";
 		default:
 			return "Unknown";
 	}
