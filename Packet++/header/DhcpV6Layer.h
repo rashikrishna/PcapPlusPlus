@@ -198,13 +198,13 @@ namespace pcpp
 	 */
 	enum DhcpV6StatusCode {
 		/* The query type is unknown to or not supported */
-		DHCPV6_LQ_UNKNOWN_QUERY_TYPE  = 7,
+		DHCPV6_STATUS_UNKNOWN_QUERY_TYPE       = 7,
 		/* The query is not valid: malformed */
-		DHCPV6_LQ_MALFORMED_QUERY     = 8,
+		DHCPV6_STATUS_CODE_MALFORMED_QUERY     = 8,
 		/* The server does not have the target address  */
-		DHCPV6_LQ_NOT_CONFIGURED      = 9,
+		DHCPV6_STATUS_CODE_NOT_CONFIGURED      = 9,
 		/* The server does not allow the requestor to issue this LEASEQUERY */
-		DHCPV6_LQ_NOT_ALLOWED         = 10
+		DHCPV6_STATUS_NOT_ALLOWED              = 10
 	};
 
 	/**
